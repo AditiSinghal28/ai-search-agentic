@@ -1,26 +1,23 @@
-# What was improved
+# Intelligent Upgrade Implementation
 
-## Core fixes
-- `chart_hint` now accepts structured objects, not just strings.
-- parameter names are normalized to avoid `:hospital_id` vs `hospital_id` mismatch.
-- SQL generation no longer depends entirely on the LLM for common admin queries.
-- read-only SQL guardrails were kept and strengthened.
-- matching support added for medicines, doctors, and treatments.
-- date parsing expanded for weekdays and common relative ranges.
+Implemented missing production features:
 
-## Newly supported query families
-- booking counts
-- booking lists by status/date
-- revenue totals
-- doctor with most appointments
-- top N treatments by revenue
-- patient registrations
-- busiest time slot / day-part
-- unpaid billing entries
-- prescription counts
-- medicine stock lookup
-- doctor schedule lookup
+- DB-backed AI query logging in `ai_search_query_logs`.
+- DB-backed user/admin feedback in `ai_search_query_feedback`.
+- Laravel migration for both AI backend tables.
+- `/feedback` endpoint to save thumbs up/down and corrections.
+- `/logs` endpoint to inspect recent query logs.
+- OpenAI-compatible LLM provider support without requiring a key by default.
+- Stronger entity-aware intents:
+  - `revenue_by_treatment`
+  - `revenue_by_doctor`
+  - `bookings_by_doctor`
+  - `booking_list_by_doctor`
+  - `prescriptions_by_doctor`
+  - `patients_by_treatment`
+- More complete intent catalog examples.
+- Automatic logging of semantic score/method/matched example.
+- Follow-up suggestions in query responses for a more chat-like UX.
+- `scripts/analyze_logs.py` to review logs and suggest new intent catalog examples.
 
-## Notes
-- This version is a hybrid system: deterministic first, LLM fallback second.
-- That makes it more accurate, faster, and easier to debug for hospital admin use.
+The Python service and Laravel app both use the same MySQL database. The included Laravel migration creates the AI tables in that shared DB.

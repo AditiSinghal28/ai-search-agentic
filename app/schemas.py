@@ -10,6 +10,7 @@ class QueryRequest(BaseModel):
     hospital_id: int
     today: str | None = None
     timezone: str | None = "Asia/Kolkata"
+    conversation_id: str | None = None
 
 
 class PlannerOutput(BaseModel):
@@ -40,3 +41,19 @@ class QueryResponse(BaseModel):
     rows: list[dict[str, Any]]
     answer: str
     chart_hint: str | dict[str, Any] | list[Any] | None = None
+    query_log_id: int | None = None
+    follow_up_suggestions: list[str] = Field(default_factory=list)
+
+
+class FeedbackRequest(BaseModel):
+    query_log_id: int
+    hospital_id: int | None = None
+    is_helpful: bool | None = None
+    corrected_intent: str | None = None
+    corrected_answer: str | None = None
+    feedback_text: str | None = None
+
+
+class FeedbackResponse(BaseModel):
+    id: int
+    status: str = "saved"

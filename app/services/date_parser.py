@@ -1,7 +1,35 @@
 from __future__ import annotations
 
+import calendar
 import re
 from datetime import date, timedelta
+
+
+MONTHS = {
+    "january": 1,
+    "jan": 1,
+    "february": 2,
+    "feb": 2,
+    "march": 3,
+    "mar": 3,
+    "april": 4,
+    "apr": 4,
+    "may": 5,
+    "june": 6,
+    "jun": 6,
+    "july": 7,
+    "jul": 7,
+    "august": 8,
+    "aug": 8,
+    "september": 9,
+    "sep": 9,
+    "october": 10,
+    "oct": 10,
+    "november": 11,
+    "nov": 11,
+    "december": 12,
+    "dec": 12,
+}
 
 
 WEEKDAYS = {
@@ -78,6 +106,19 @@ def resolve_previous_weekday(today: date, weekday_name: str) -> date:
 
 
 def detect_date_range(query: str, today: date) -> tuple[date | None, date | None, str | None]:
+    q = query.lower()
+
+    for month_name, month_num in MONTHS.items():
+        if re.search(rf"\b{month_name}\b", q):
+            year_match = re.search(r"\b(20\d{2})\b", q)
+            year = int(year_match.group(1)) if year_match else today.year
+
+            start = date(year, month_num, 1)
+            last_day = calendar.monthrange(year, month_num)[1]
+            end = date(year, month_num, last_day)
+
+            return start, end, month_name.capitalize()
+        
     q = query.lower().strip()
 
     if "today" in q:

@@ -13,7 +13,7 @@ INTENT_CATALOG: dict[str, dict] = {
             "how many bookings were there last month",
             "booking count this week",
             "count appointments for friday",
-            "how many confirmed bookings are there today",
+            "how many completed bookings last month",
         ],
     },
     "booking_list": {
@@ -28,6 +28,27 @@ INTENT_CATALOG: dict[str, dict] = {
             "list no show bookings for friday",
         ],
     },
+    "bookings_by_doctor": {
+        "tables": ["bookings", "doctors"],
+        "answer_style": "single_value",
+        "examples": [
+            "how many bookings does doctor abinav have today",
+            "appointments for doctor abinav this week",
+            "count bookings for dr abinav last month",
+            "how many patients booked with abinav",
+            "booking count by doctor",
+        ],
+    },
+    "booking_list_by_doctor": {
+        "tables": ["bookings", "doctors"],
+        "answer_style": "list",
+        "examples": [
+            "show bookings for doctor abinav today",
+            "list appointments with dr abinav this week",
+            "display completed bookings for doctor abinav",
+            "show all bookings of abinav last month",
+        ],
+    },
     "revenue_total": {
         "tables": ["patient_billing_entries"],
         "answer_style": "single_value",
@@ -38,6 +59,32 @@ INTENT_CATALOG: dict[str, dict] = {
             "what are the earnings this month",
             "what are the collections this month",
             "how much revenue was generated this week",
+        ],
+    },
+    "revenue_by_treatment": {
+        "tables": ["patient_billing_entries", "treatments"],
+        "answer_style": "single_value",
+        "examples": [
+            "revenue from dermatology",
+            "revenue from derma",
+            "rebenue from derma",
+            "income for derma last month",
+            "earning by consultation",
+            "how much revenue did dermatology generate",
+            "income from jaundice treatment",
+            "earnings from consultation",
+            "money made from a treatment",
+        ],
+    },
+    "revenue_by_doctor": {
+        "tables": ["patient_billing_entries", "bookings", "doctors"],
+        "answer_style": "single_value",
+        "examples": [
+            "revenue by doctor abinav this month",
+            "income from doctor abinav",
+            "how much money did dr abinav generate",
+            "earnings for doctor abinav last month",
+            "collection by doctor",
         ],
     },
     "doctor_most_appointments": {
@@ -70,6 +117,16 @@ INTENT_CATALOG: dict[str, dict] = {
             "new patient registrations last month",
             "count patients registered this week",
             "how many new patients do we have",
+        ],
+    },
+    "patients_by_treatment": {
+        "tables": ["bookings", "booking_treatments", "treatments"],
+        "answer_style": "single_value",
+        "examples": [
+            "how many patients booked dermatology this month",
+            "patient count for jaundice treatment",
+            "how many bookings for derma treatment",
+            "patients for consultation last month",
         ],
     },
     "busiest_time_slot": {
@@ -114,6 +171,16 @@ INTENT_CATALOG: dict[str, dict] = {
             "how many prescription records are there today",
         ],
     },
+    "prescriptions_by_doctor": {
+        "tables": ["prescriptions", "doctors"],
+        "answer_style": "single_value",
+        "examples": [
+            "how many prescriptions did doctor abinav write today",
+            "prescriptions by dr abinav this week",
+            "count prescriptions for doctor abinav last month",
+            "doctor prescription count",
+        ],
+    },
     "medicine_stock": {
         "tables": ["medicines"],
         "answer_style": "single_value",
@@ -145,6 +212,79 @@ INTENT_CATALOG: dict[str, dict] = {
             "how much stock do we have across all medicines",
         ],
     },
+
+    "doctor_list": {
+        "tables": ["doctors", "specializations"],
+        "answer_style": "list",
+        "examples": [
+            "list all doctors of the hospital",
+            "show all doctors",
+            "available doctors in this hospital",
+            "who are the doctors",
+            "doctor list",
+            "show hospital doctors",
+        ],
+    },
+    "doctor_schedule_list": {
+        "tables": ["schedules", "doctors"],
+        "answer_style": "list",
+        "examples": [
+            "show all doctor schedules",
+            "list schedules for all doctors",
+            "doctor schedule list",
+            "available timings for all doctors",
+            "show doctor availability",
+            "all doctors working hours",
+        ],
+    },
+    "medicine_list": {
+        "tables": ["medicines"],
+        "answer_style": "list",
+        "examples": [
+            "list all medicines",
+            "show medicines",
+            "medicine list",
+            "show medicine inventory",
+            "what medicines are there",
+            "list medicine stock",
+        ],
+    },
+    "available_medicines": {
+        "tables": ["medicines"],
+        "answer_style": "list",
+        "examples": [
+            "available medicines",
+            "show medicines in stock",
+            "list available medicines",
+            "which medicines are currently available",
+            "medicines with stock left",
+            "show stocked medicines",
+        ],
+    },
+    "treatment_list": {
+        "tables": ["treatments"],
+        "answer_style": "list",
+        "examples": [
+            "list all treatments",
+            "show treatments",
+            "available treatments",
+            "what treatments are offered",
+            "show operations and consultations",
+            "treatment list",
+        ],
+    },
+    "patient_list": {
+        "tables": ["patients", "patient_billing_entries", "caseentries"],
+        "answer_style": "list",
+        "examples": [
+            "list all patients",
+            "show patients",
+            "patient list",
+            "show registered patients",
+            "list patients of this hospital",
+            "show recent patients",
+        ],
+    },
     "schedule_lookup": {
         "tables": ["schedules", "doctors"],
         "answer_style": "list",
@@ -153,18 +293,6 @@ INTENT_CATALOG: dict[str, dict] = {
             "working hours of doctor abinav",
             "when is doctor abinav available",
             "doctor schedule for abinav",
-        ],
-    },
-    "revenue_by_treatment": {
-        "tables": ["patient_billing_entries", "treatments"],
-        "answer_style": "single_value",
-        "examples": [
-            "revenue from dermatology",
-            "revenue from derma",
-            "how much revenue did dermatology generate",
-            "income from jaundice treatment",
-            "earnings from consultation",
-            "money made from a treatment",
         ],
     },
 }

@@ -1,0 +1,42 @@
+[
+  {
+    "query": "list all the doctors of the hospital",
+    "expected_intent": "doctor_list"
+  },
+  {
+    "query": "show all doctor schedules",
+    "expected_intent": "doctor_schedule_list"
+  },
+  {
+    "query": "available medicines",
+    "expected_intent": "available_medicines"
+  },
+  {
+    "query": "list all medicines",
+    "expected_intent": "medicine_list"
+  },
+  {
+    "query": "show available treatments",
+    "expected_intent": "treatment_list"
+  },
+  {
+    "query": "list all patients",
+    "expected_intent": "patient_list"
+  },
+  {
+    "query": "revenue from derma",
+    "expected_intent": "revenue_by_treatment"
+  },
+  {
+    "query": "what is the income this month",
+    "expected_intent": "revenue_total"
+  },
+  {
+    "query": "which time slot is busiest on Mondays",
+    "expected_intent": "busiest_time_slot"
+  },
+  {
+    "query": "how many medicines do we have in stock",
+    "expected_intent": "medicine_inventory_count"
+  }
+]

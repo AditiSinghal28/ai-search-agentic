@@ -39,6 +39,11 @@ class IntentMatcher:
             "visits": "bookings",
             "visit": "booking",
             "earning": "revenue",
+            "rebenue": "revenue",
+            "revnu": "revenue",
+            "revenu": "revenue",
+            "profit": "revenue",
+            "sales": "revenue",
             "earnings": "revenue",
             "income": "revenue",
             "collections": "revenue",
@@ -150,7 +155,7 @@ class IntentMatcher:
                 corrected.append(token)
                 continue
 
-            matches = get_close_matches(token, self._vocabulary, n=1, cutoff=0.88)
+            matches = get_close_matches(token, self._vocabulary, n=1, cutoff=0.82)
             if matches:
                 corrected.append(matches[0])
             else:
