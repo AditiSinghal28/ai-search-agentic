@@ -300,6 +300,14 @@ class SearchAgent:
         if ("time slot" in q and "busiest" in q) or ("slot is busiest" in q):
             return plan("busiest_time_slot", ["bookings"], "single_value")
         
+        if any(p in q for p in [
+            "busiest day of the week",
+            "busiest day in the week",
+            "which weekday is busiest",
+            "which day is busiest",
+        ]):
+            return plan("busiest_weekday", ["bookings"], "single_value")
+
         if "busiest day" in q or " busiest date" in q:
             return plan("busiest_day", ["bookings"], "single_value")
 
@@ -811,6 +819,30 @@ class SearchAgent:
                 explanation="Busiest day by booking count.",
             )
 
+        if plan.intent == "busiest_weekday":
+
+            clauses = ["hospital_id = :hospital_id"]
+
+            if plan.date_from and plan.date_to:
+                clauses.append("DATE(booking_date) BETWEEN :date_from AND :date_to")
+
+            sql = f"""
+            SELECT DAYNAME(booking_date) AS weekday,
+                COUNT(*) AS booking_count
+            FROM bookings
+            WHERE {' AND '.join(clauses)}
+            GROUP BY DAYNAME(booking_date)
+            ORDER BY booking_count DESC, weekday ASC
+            LIMIT 1
+            """
+
+            return SqlGenerationOutput(
+                sql=sql,
+                parameters=params,
+                chart_hint=None,
+                explanation="Busiest weekday by booking count.",
+            )
+
         if plan.intent == "busiest_day_part":
             clauses = ["hospital_id = :hospital_id"]
             if plan.date_from and plan.date_to:
@@ -1173,6 +1205,12 @@ class SearchAgent:
                 return f"{count} patients were registered {label}."
             return f"{count} patients were registered."
         
+        if plan.intent == "busiest_weekday":
+            return (
+                f"{first.get('weekday')} is the busiest day of the week "
+                f"with {first.get('booking_count')} bookings."
+            )
+
         if plan.intent == "busiest_day":
             return (
                 f"The busiest day{f' in {label}' if label else ''} was "
